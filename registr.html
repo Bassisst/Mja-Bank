@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaJa Register</title>
+  <link rel="stylesheet" href="registr.css">
+</head>
+<body>
+<div class="main-container">
+  <div class="form-wrapper">
+    <h2 class="form-title">Register</h2>
+    <form>
+      <div class="field">
+        <input class="inp" type="email" id="email" required autocomplete="off">
+        <label class="label" for="email">Email</label>
+        <span class="icon bi bi-envelope"></span>
+      </div>
+      <div class="field">
+        <input class="inp" type="text" id="username" required autocomplete="off">
+        <label class="label" for="username">Username</label>
+        <span class="icon bi bi-person"></span>
+      </div>
+      <div class="field">
+        <input class="inp" type="password" id="password" required>
+        <label class="label" for="password">Password</label>
+        <span class="toggle-pass bi bi-eye"></span>
+      </div>
+      <div class="field">
+        <input class="inp" type="password" id="confirm-password" required>
+        <label class="label" for="confirm-password">Confirm Password</label>
+        <span class="toggle-pass-confirm bi bi-eye"></span>
+      </div>
+
+
+      <button type="submit" id="register-btn">Register</button>
+    </form>
+    <div class="separator">or</div>
+    <div class="alternative">
+      <button class="social-btn bi bi-twitter-x" aria-label="Register with Twitter"></button>
+      <button class="social-btn bi bi-pinterest" aria-label="Register with Pinterest"></button>
+      <button class="social-btn bi bi-google" aria-label="Register with Google"></button>
+      <button class="social-btn bi bi-facebook" aria-label="Register with Facebook"></button>
+      <button class="social-btn bi bi-discord" aria-label="Register with Discord"></button>
+      <a href="card.html">
+        <button id="back-btn"> back</button>
+      </a>
+    </div>
+    <div class="bottom">Already have an account? <a href="login.html">Login here</a></div>
+  </div>
+  <div class="bg"></div>
+</div>
+
+
+<script>
+  const passwordInput = document.querySelector('#password');
+  const confirmPasswordInput = document.querySelector('#confirm-password');
+  const togglePasswordIcon = document.querySelector('.toggle-pass');
+  const toggleConfirmPasswordIcon = document.querySelector('.toggle-pass-confirm');
+
+
+  togglePasswordIcon.addEventListener('click', () => {
+    togglePasswordIcon.classList.toggle('bi-eye-slash');
+    togglePasswordIcon.classList.toggle('bi-eye');
+    passwordInput.type = (passwordInput.type === 'password') ? 'text' : 'password';
+  });
+
+
+  toggleConfirmPasswordIcon.addEventListener('click', () => {
+    toggleConfirmPasswordIcon.classList.toggle('bi-eye-slash');
+    toggleConfirmPasswordIcon.classList.toggle('bi-eye');
+    confirmPasswordInput.type = (confirmPasswordInput.type === 'password') ? 'text' : 'password';
+  });
+
+</script>
+</body>
+</html>

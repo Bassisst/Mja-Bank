@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaJa Banking Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+<div class="main-container">
+  <div class="form-wrapper">
+    <h2 class="form-title">Login</h2>
+    <form>
+      <div class="field">
+        <input class="inp" type="text" id="username" required autocomplete="off">
+        <label class="label" for="username">Username</label>
+        <span class="icon bi bi-person"></span>
+      </div>
+      <div class="field">
+        <input class="inp" type="password" id="password" required>
+        <label class="label" for="password">Password</label>
+        <span class="toggle-pass bi bi-eye"></span>
+      </div>
+      <div class="action">
+        <label for="save-info">
+          <input type="checkbox" id="save-info">
+          Stay signed in
+        </label>
+        <a href="#">Forgot password?</a>
+      </div>
+      <button type="submit" id="login-btn">Login</button>
+    </form>
+    <div class="separator">or</div>
+    <div class="alternative">
+      <button class="social-btn bi bi-twitter-x" aria-label="Login with Twitter"></button>
+      <button class="social-btn bi bi-pinterest" aria-label="Login with Pinterest"></button>
+      <button class="social-btn bi bi-google" aria-label="Login with Google"></button>
+      <button class="social-btn bi bi-facebook" aria-label="Login with Facebook"></button>
+      <button class="social-btn bi bi-discord" aria-label="Login with Discord"></button>
+      <a href="card.html">
+        <button id="back-btn"> back</button>
+      </a>
+    </div>
+    <div class="bottom">Don't have an account? <a href="registr.html">Sign up</a></div>
+  </div>
+  <div class="bg"></div>
+  <script>
+    const input = document.querySelector('#password');
+    const icon = document.querySelector('.toggle-pass');
+    icon.addEventListener('click', () => {
+      icon.classList.toggle('bi-eye-slash');
+      icon.classList.toggle('bi-eye');
+      input.type = (input.type === 'password') ? 'text' : 'password';
+    });
+  </script>
+
+</div>
+</body>
+</html>

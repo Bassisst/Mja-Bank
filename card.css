@@ -1,0 +1,129 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: white;
+  display: flex;
+  height: 100vh;
+  margin: 0;
+}
+
+.sidebar {
+  width: 250px;
+  background: #0f3460;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-items {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-items li {
+  margin: 10px 0;
+}
+
+.menu-items a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.menu-items a:hover {
+  background: #e94560;
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0f3460;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.preview {
+  margin-bottom: 20px;
+}
+
+.card {
+  width: 350px;
+  height: 200px;
+  background: #2c2c2c;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#chip {
+  width: 50px;
+  height: 30px;
+  background: gold;
+  border-radius: 5px;
+}
+
+.card-number, .card-name, .validity-box {
+  font-size: 18px;
+}
+
+.validity-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 350px;
+  background: #1a1a2e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #e94560;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #d42e50;
+}

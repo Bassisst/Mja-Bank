@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MJa Payment Card</title>
+  <link rel="stylesheet" href="card.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+  <ul class="menu-items">
+    <li><a href="index.html"><span class="icon fa fa-house"></span> Home</a></li>
+    <li><a href="#"><span class="icon fa fa-layer-group"></span> Dashboard</a></li>
+    <li><a href="#"><span class="icon fa fa-chart-line"></span> Analytics</a></li>
+    <li><a href="login.html"><span class="icon fa fa-user"></span> Account</a></li>
+    <li><a href="#"><span class="icon fa fa-gear"></span> Settings</a></li>
+  </ul>
+</nav>
+
+<div class="main-container">
+  <div class="content-box">
+    <div class="preview">
+      <div class="card">
+        <div class="front">
+          <div class="title">CREDIT CARD</div>
+          <div id="chip"></div>
+          <div class="card-number">0000 0000 0000 0000</div>
+          <div class="card-name">Cardholder Name</div>
+          <div class="validity-box">
+            <span>VALID THRU</span>
+            <div class="card-validity">00/00</div>
+          </div>
+          <div class="logo">MasterCard</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-container">
+      <form>
+        <div class="field">
+          <label for="number">Card Number</label>
+          <input type="text" id="number" oninput="updateCardNumber(this);" maxlength="19">
+        </div>
+        <div class="field">
+          <label for="name">Cardholder</label>
+          <input type="text" id="name" oninput="updateCardHolder(this);" maxlength="25">
+        </div>
+        <div class="field">
+          <label for="validity">Expiration Date (MM/YY)</label>
+          <input type="text" id="validity" oninput="updateValidity(this)" maxlength="5">
+        </div>
+        <div class="field">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" oninput="updateCardCvv(this)" maxlength="3">
+        </div>
+        <div class="field">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" min="1" placeholder="Enter amount">
+        </div>
+        <button type="button" id="payButton">Pay</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+<script src="card.js"></script>
+</body>
+</html>
