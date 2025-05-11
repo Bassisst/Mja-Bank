@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie - Fufel Bank</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Fufel Bank</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Strona główna</a></li>
+                    <li><a href="moja-karta.html">Moja karta</a></li>
+                    <li><a href="przelew.html">Przelew</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="logowanie.html" class="btn btn-outline active">Logowanie</a>
+                <a href="rejestracja.html" class="btn btn-primary">Rejestracja</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="auth-section">
+            <div class="container">
+                <div class="auth-form-container">
+                    <h2>Logowanie do konta</h2>
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Hasło</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember" name="remember">
+                                <label for="remember">Zapamiętaj mnie</label>
+                            </div>
+                            <a href="#" class="forgot-password">Zapomniałeś hasła?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Zaloguj się</button>
+                    </form>
+                    <div class="auth-links">
+                        <p>Nie masz konta? <a href="rejestracja.html">Zarejestruj się</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Fufel Bank</h2>
+                    <p>Twój bank online</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Szybkie linki</h3>
+                    <ul>
+                        <li><a href="index.html">Strona główna</a></li>
+                        <li><a href="moja-karta.html">Moja karta</a></li>
+                        <li><a href="przelew.html">Przelew</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Kontakt</h3>
+                    <p>Email: kontakt@fufelbank.pl</p>
+                    <p>Telefon: +48 123 456 789</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fufel Bank. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+</body>
+</html>

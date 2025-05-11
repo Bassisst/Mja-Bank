@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moja karta - Fufel Bank</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Fufel Bank</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Strona główna</a></li>
+                    <li><a href="moja-karta.html" class="active">Moja karta</a></li>
+                    <li><a href="przelew.html">Przelew</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+            </nav>
+            <div class="user-menu">
+                <span id="user-name">Użytkownik</span>
+                <button id="logout-btn" class="btn btn-outline">Wyloguj</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-section">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h2>Moja karta</h2>
+                    <p>Zarządzaj swoją kartą i sprawdzaj saldo</p>
+                </div>
+                
+                <div class="card-container">
+                    <div class="credit-card">
+                        <div class="card-header">
+                            <div class="card-logo">Fufel Bank</div>
+                            <div class="card-chip"></div>
+                        </div>
+                        <div class="card-number">
+                            <span>**** **** **** 1234</span>
+                        </div>
+                        <div class="card-details">
+                            <div class="card-holder">
+                                <span class="label">Właściciel</span>
+                                <span id="card-holder-name">Jan Kowalski</span>
+                            </div>
+                            <div class="card-expiry">
+                                <span class="label">Ważna do</span>
+                                <span>12/28</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-info">
+                        <div class="balance-info">
+                            <h3>Saldo konta</h3>
+                            <div class="balance-amount" id="account-balance">5,000.00 PLN</div>
+                        </div>
+                        
+                        <div class="card-actions">
+                            <button class="btn btn-outline">Zablokuj kartę</button>
+                            <button class="btn btn-outline">Zmień PIN</button>
+                            <button class="btn btn-outline">Limity transakcji</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transactions">
+                    <h3>Ostatnie transakcje</h3>
+                    <div class="transaction-list" id="transaction-list">
+                        <div class="transaction">
+                            <div class="transaction-info">
+                                <div class="transaction-name">Sklep Spożywczy ABC</div>
+                                <div class="transaction-date">22.04.2024</div>
+                            </div>
+                            <div class="transaction-amount expense">-120.50 PLN</div>
+                        </div>
+                        <div class="transaction">
+                            <div class="transaction-info">
+                                <div class="transaction-name">Wpłata własna</div>
+                                <div class="transaction-date">20.04.2024</div>
+                            </div>
+                            <div class="transaction-amount income">+1,000.00 PLN</div>
+                        </div>
+                        <div class="transaction">
+                            <div class="transaction-info">
+                                <div class="transaction-name">Restauracja XYZ</div>
+                                <div class="transaction-date">18.04.2024</div>
+                            </div>
+                            <div class="transaction-amount expense">-85.00 PLN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Fufel Bank</h2>
+                    <p>Twój bank online</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Szybkie linki</h3>
+                    <ul>
+                        <li><a href="index.html">Strona główna</a></li>
+                        <li><a href="moja-karta.html">Moja karta</a></li>
+                        <li><a href="przelew.html">Przelew</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Kontakt</h3>
+                    <p>Email: kontakt@fufelbank.pl</p>
+                    <p>Telefon: +48 123 456 789</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fufel Bank. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

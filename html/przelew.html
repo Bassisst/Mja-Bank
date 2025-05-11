@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Przelew - Fufel Bank</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Fufel Bank</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Strona główna</a></li>
+                    <li><a href="moja-karta.html">Moja karta</a></li>
+                    <li><a href="przelew.html" class="active">Przelew</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+            </nav>
+            <div class="user-menu">
+                <span id="user-name">Użytkownik</span>
+                <button id="logout-btn" class="btn btn-outline">Wyloguj</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-section">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h2>Przelew</h2>
+                    <p>Wykonaj przelew na inną kartę</p>
+                </div>
+                
+                <div class="transfer-container">
+                    <div class="balance-info">
+                        <h3>Dostępne środki</h3>
+                        <div class="balance-amount" id="available-balance">5,000.00 PLN</div>
+                    </div>
+                    
+                    <form id="transfer-form" class="transfer-form">
+                        <div class="form-group">
+                            <label for="recipient-name">Imię i nazwisko odbiorcy</label>
+                            <input type="text" id="recipient-name" name="recipient-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-account">Numer konta odbiorcy</label>
+                            <input type="text" id="recipient-account" name="recipient-account" placeholder="PL00 0000 0000 0000 0000 0000 0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transfer-amount">Kwota</label>
+                            <div class="amount-input">
+                                <input type="number" id="transfer-amount" name="transfer-amount" min="0.01" step="0.01" required>
+                                <span class="currency">PLN</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="transfer-title">Tytuł przelewu</label>
+                            <input type="text" id="transfer-title" name="transfer-title" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" id="cancel-transfer">Anuluj</button>
+                            <button type="submit" class="btn btn-primary" id="confirm-transfer">Wykonaj przelew</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="transfer-history">
+                    <h3>Historia przelewów</h3>
+                    <div class="transaction-list" id="transfer-list">
+                        <div class="transaction">
+                            <div class="transaction-info">
+                                <div class="transaction-name">Do: Anna Nowak</div>
+                                <div class="transaction-date">15.04.2024</div>
+                            </div>
+                            <div class="transaction-amount expense">-250.00 PLN</div>
+                        </div>
+                        <div class="transaction">
+                            <div class="transaction-info">
+                                <div class="transaction-name">Od: Piotr Wiśniewski</div>
+                                <div class="transaction-date">10.04.2024</div>
+                            </div>
+                            <div class="transaction-amount income">+500.00 PLN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modal dla potwierdzenia przelewu -->
+        <div id="transfer-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Potwierdzenie przelewu</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p>Czy na pewno chcesz wykonać przelew?</p>
+                    <div class="transfer-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Odbiorca:</span>
+                            <span id="modal-recipient"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Numer konta:</span>
+                            <span id="modal-account"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Kwota:</span>
+                            <span id="modal-amount"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tytuł:</span>
+                            <span id="modal-title"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" id="modal-cancel">Anuluj</button>
+                    <button class="btn btn-primary" id="modal-confirm">Potwierdź</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal dla sukcesu przelewu -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Przelew wykonany</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <p>Twój przelew został zrealizowany pomyślnie!</p>
+                    <div class="transfer-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Odbiorca:</span>
+                            <span id="success-recipient"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Kwota:</span>
+                            <span id="success-amount"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="success-ok">OK</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Fufel Bank</h2>
+                    <p>Twój bank online</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Szybkie linki</h3>
+                    <ul>
+                        <li><a href="index.html">Strona główna</a></li>
+                        <li><a href="moja-karta.html">Moja karta</a></li>
+                        <li><a href="przelew.html">Przelew</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Kontakt</h3>
+                    <p>Email: kontakt@fufelbank.pl</p>
+                    <p>Telefon: +48 123 456 789</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fufel Bank. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="transfer.js"></script>
+</body>
+</html>
