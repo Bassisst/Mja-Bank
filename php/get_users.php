@@ -3,29 +3,13 @@ global $conn;
 header('Content-Type: application/json');
 require_once 'db_connect.php';
 
-// Pobieranie danych z żądania POST
-$data = json_decode(file_get_contents('php://input'), true);
-$email = $data['email'] ?? '';
-$password = $data['password'] ?? '';
+// Pobieranie listy użytkowników
+$sql = "SELECT id, first_name, last_name, email, phone, balance, account_number, pin, card_blocked FROM users";
+$result = $conn->query($sql);
 
-// Sprawdzanie obecności danych
-if (empty($email) || empty($password)) {
-    echo json_encode(['success' => false, 'message' => 'Wprowadź email i hasło']);
-    exit;
-}
-
-// Wyszukiwanie użytkownika w bazie danych
-$sql = "SELECT id, first_name, last_name, email, phone, balance, account_number, pin, card_blocked, password FROM users WHERE email = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
-
-    // Weryfikacja hasła
-    if (password_verify($password, $row['password'])) {
+$users = array();
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
         // Konwersja nazw pól dla kompatybilności z JavaScript
         $user = array(
             'id' => $row['id'],
@@ -38,11 +22,11 @@ if ($result->num_rows === 1) {
             'pin' => $row['pin'] ?? '1234',
             'cardBlocked' => $row['card_blocked'] ?? false
         );
-
+        
         // Pobieranie limitów dla użytkownika
         $limitsQuery = "SELECT daily, online, contactless FROM limits WHERE user_id = " . $row['id'];
         $limitsResult = $conn->query($limitsQuery);
-
+        
         if ($limitsResult && $limitsResult->num_rows > 0) {
             $limits = $limitsResult->fetch_assoc();
             $user['limits'] = $limits;
@@ -53,28 +37,24 @@ if ($result->num_rows === 1) {
                 'contactless' => 100.00
             );
         }
-
+        
         // Pobieranie transakcji dla użytkownika
         $transactionsQuery = "SELECT id, type, amount, description, DATE_FORMAT(created_at, '%d.%m.%Y') as date FROM transactions WHERE user_id = " . $row['id'] . " ORDER BY created_at DESC LIMIT 5";
         $transactionsResult = $conn->query($transactionsQuery);
-
+        
         $transactions = array();
         if ($transactionsResult && $transactionsResult->num_rows > 0) {
             while($transactionRow = $transactionsResult->fetch_assoc()) {
                 $transactions[] = $transactionRow;
             }
         }
-
+        
         $user['transactions'] = $transactions;
-
-        echo json_encode(['success' => true, 'user' => $user]);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Nieprawidłowe hasło']);
+        
+        $users[] = $user;
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Użytkownik nie znaleziony']);
 }
 
-$stmt->close();
+echo json_encode($users);
 $conn->close();
 ?>
