@@ -1,0 +1,257 @@
+/* Style dla strony przelewów */
+.transfer-section {
+  padding: 40px 0;
+  min-height: calc(100vh - 200px);
+}
+
+.transfer-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.transfer-header h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.transfer-header p {
+  color: #7f8c8d;
+  font-size: 16px;
+}
+
+.transfer-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.account-info {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.account-info h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.account-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.account-number,
+.account-balance {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-number .label,
+.account-balance .label {
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.account-number .number,
+.account-balance .balance {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.transfer-form-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.transfer-form .form-group {
+  margin-bottom: 20px;
+}
+
+.transfer-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.transfer-form input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.transfer-form input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.amount-input {
+  position: relative;
+}
+
+.amount-input .currency {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.amount-input input {
+  padding-right: 50px;
+}
+
+.recent-transfers {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.recent-transfers h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.transfers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.transfer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #e74c3c;
+}
+
+.transfer-info {
+  flex: 1;
+}
+
+.transfer-recipient {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.transfer-title {
+  color: #7f8c8d;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.transfer-date {
+  color: #95a5a6;
+  font-size: 12px;
+}
+
+.transfer-amount {
+  font-weight: 600;
+  color: #e74c3c;
+  font-size: 16px;
+}
+
+.no-transfers {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* Style dla modali */
+.transfer-summary {
+  margin-bottom: 20px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-item .label {
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.summary-item .value {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.confirmation-text {
+  text-align: center;
+  color: #2c3e50;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.transfer-details {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-item .label {
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.detail-item .value {
+  color: #2c3e50;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+  .transfer-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .account-info,
+  .transfer-form-container {
+    padding: 20px;
+  }
+
+  .transfer-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .transfer-amount {
+    align-self: flex-end;
+  }
+}
