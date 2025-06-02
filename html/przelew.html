@@ -5,185 +5,466 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Przelew - Fufel Bank</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="auth-styles.css">
+    <style>
+        /* Style dla strony przelewów */
+        .transfer-section {
+            padding: 40px 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .transfer-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .transfer-header h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .transfer-header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .transfer-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .account-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            height: fit-content;
+        }
+
+        .account-info h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .account-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .account-number,
+        .account-balance {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-number .label,
+        .account-balance .label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .account-number .number,
+        .account-balance .balance {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .transfer-form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .transfer-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .transfer-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .transfer-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .transfer-form input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .amount-input {
+            position: relative;
+        }
+
+        .amount-input .currency {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .amount-input input {
+            padding-right: 50px;
+        }
+
+        .recent-transfers {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-transfers h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .transfers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .transfer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .transfer-info {
+            flex: 1;
+        }
+
+        .transfer-recipient {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .transfer-title {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .transfer-date {
+            color: #95a5a6;
+            font-size: 12px;
+        }
+
+        .transfer-amount {
+            font-weight: 600;
+            color: #e74c3c;
+            font-size: 16px;
+        }
+
+        .no-transfers {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* Style dla modali */
+        .transfer-summary {
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item .label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .summary-item .value {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .confirmation-text {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        .transfer-details {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-item .label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .detail-item .value {
+            color: #2c3e50;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .transfer-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .account-info,
+            .transfer-form-container {
+                padding: 20px;
+            }
+
+            .transfer-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .transfer-amount {
+                align-self: flex-end;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Fufel Bank</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Strona główna</a></li>
-                    <li><a href="moja-karta.html">Moja karta</a></li>
-                    <li><a href="przelew.html" class="active">Przelew</a></li>
-                    <li><a href="kontakt.html">Kontakt</a></li>
-                </ul>
-            </nav>
-            <div class="user-menu">
-                <span id="user-name">Użytkownik</span>
-                <button id="logout-btn" class="btn btn-outline">Wyloguj</button>
-            </div>
+<header>
+    <div class="container">
+        <div class="logo">
+            <h1>Fufel Bank</h1>
         </div>
-    </header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Strona główna</a></li>
+                <li><a href="moja-karta.html">Moja karta</a></li>
+                <li><a href="przelew.html" class="active">Przelew</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="logowanie.html" class="btn btn-outline">Logowanie</a>
+            <a href="rejestracja.html" class="btn btn-primary">Rejestracja</a>
+        </div>
+    </div>
+</header>
 
-    <main>
-        <section class="dashboard-section">
-            <div class="container">
-                <div class="dashboard-header">
-                    <h2>Przelew</h2>
-                    <p>Wykonaj przelew na inną kartę</p>
-                </div>
-                
-                <div class="transfer-container">
-                    <div class="balance-info">
-                        <h3>Dostępne środki</h3>
-                        <div class="balance-amount" id="available-balance">5,000.00 PLN</div>
+<main>
+    <section class="transfer-section">
+        <div class="container">
+            <div class="transfer-header">
+                <h2>Nowy przelew</h2>
+                <p>Wykonaj szybki i bezpieczny przelew</p>
+            </div>
+
+            <div class="transfer-container">
+                <div class="account-info">
+                    <h3>Twoje konto</h3>
+                    <div class="account-details">
+                        <div class="account-number">
+                            <span class="label">Numer konta:</span>
+                            <span class="number" id="user-account-number">PL** **** **** ****</span>
+                        </div>
+                        <div class="account-balance">
+                            <span class="label">Dostępne środki:</span>
+                            <span class="balance" id="user-balance">0,00 PLN</span>
+                        </div>
                     </div>
-                    
+                </div>
+
+                <div class="transfer-form-container">
                     <form id="transfer-form" class="transfer-form">
                         <div class="form-group">
-                            <label for="recipient-name">Imię i nazwisko odbiorcy</label>
+                            <label for="recipient-name">Nazwa odbiorcy</label>
                             <input type="text" id="recipient-name" name="recipient-name" required>
                         </div>
+
                         <div class="form-group">
                             <label for="recipient-account">Numer konta odbiorcy</label>
-                            <input type="text" id="recipient-account" name="recipient-account" placeholder="PL00 0000 0000 0000 0000 0000 0000" required>
+                            <input type="text" id="recipient-account" name="recipient-account"
+                                   placeholder="PL00 0000 0000 0000 0000 0000 0000"
+                                   pattern="[A-Z]{2}[0-9]{2}[\s0-9]*" required>
                         </div>
+
                         <div class="form-group">
-                            <label for="transfer-amount">Kwota</label>
+                            <label for="transfer-amount">Kwota przelewu</label>
                             <div class="amount-input">
-                                <input type="number" id="transfer-amount" name="transfer-amount" min="0.01" step="0.01" required>
+                                <input type="number" id="transfer-amount" name="transfer-amount"
+                                       min="0.01" step="0.01" required>
                                 <span class="currency">PLN</span>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="transfer-title">Tytuł przelewu</label>
-                            <input type="text" id="transfer-title" name="transfer-title" required>
+                            <input type="text" id="transfer-title" name="transfer-title"
+                                   maxlength="140" required>
                         </div>
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-outline" id="cancel-transfer">Anuluj</button>
-                            <button type="submit" class="btn btn-primary" id="confirm-transfer">Wykonaj przelew</button>
+
+                        <div class="form-group">
+                            <label for="transfer-date">Data realizacji</label>
+                            <input type="date" id="transfer-date" name="transfer-date" required>
                         </div>
+
+                        <div id="transfer-error" class="error-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i>
+                            Wykonaj przelew
+                        </button>
                     </form>
                 </div>
-                
-                <div class="transfer-history">
-                    <h3>Historia przelewów</h3>
-                    <div class="transaction-list" id="transfer-list">
-                        <div class="transaction">
-                            <div class="transaction-info">
-                                <div class="transaction-name">Do: Anna Nowak</div>
-                                <div class="transaction-date">15.04.2024</div>
-                            </div>
-                            <div class="transaction-amount expense">-250.00 PLN</div>
-                        </div>
-                        <div class="transaction">
-                            <div class="transaction-info">
-                                <div class="transaction-name">Od: Piotr Wiśniewski</div>
-                                <div class="transaction-date">10.04.2024</div>
-                            </div>
-                            <div class="transaction-amount income">+500.00 PLN</div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
-        
-        <!-- Modal dla potwierdzenia przelewu -->
-        <div id="transfer-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Potwierdzenie przelewu</h3>
-                    <span class="close-modal">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <p>Czy na pewno chcesz wykonać przelew?</p>
-                    <div class="transfer-details">
-                        <div class="detail-row">
-                            <span class="detail-label">Odbiorca:</span>
-                            <span id="modal-recipient"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Numer konta:</span>
-                            <span id="modal-account"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Kwota:</span>
-                            <span id="modal-amount"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Tytuł:</span>
-                            <span id="modal-title"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-outline" id="modal-cancel">Anuluj</button>
-                    <button class="btn btn-primary" id="modal-confirm">Potwierdź</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Modal dla sukcesu przelewu -->
-        <div id="success-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Przelew wykonany</h3>
-                    <span class="close-modal">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <div class="success-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <p>Twój przelew został zrealizowany pomyślnie!</p>
-                    <div class="transfer-details">
-                        <div class="detail-row">
-                            <span class="detail-label">Odbiorca:</span>
-                            <span id="success-recipient"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Kwota:</span>
-                            <span id="success-amount"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="success-ok">OK</button>
-                </div>
-            </div>
-        </div>
-    </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>Fufel Bank</h2>
-                    <p>Twój bank online</p>
+            <div class="recent-transfers">
+                <h3>Ostatnie przelewy</h3>
+                <div class="transfers-list" id="transfers-list">
+                    <!-- Tutaj będą wyświetlane ostatnie przelewy -->
                 </div>
-                <div class="footer-links">
-                    <h3>Szybkie linki</h3>
-                    <ul>
-                        <li><a href="index.html">Strona główna</a></li>
-                        <li><a href="moja-karta.html">Moja karta</a></li>
-                        <li><a href="przelew.html">Przelew</a></li>
-                        <li><a href="kontakt.html">Kontakt</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h3>Kontakt</h3>
-                    <p>Email: kontakt@fufelbank.pl</p>
-                    <p>Telefon: +48 123 456 789</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Fufel Bank. Wszelkie prawa zastrzeżone.</p>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <script src="transfer.js"></script>
+    <!-- Modal potwierdzenia przelewu -->
+    <div id="transfer-confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Potwierdź przelew</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="transfer-summary">
+                    <div class="summary-item">
+                        <span class="label">Odbiorca:</span>
+                        <span class="value" id="confirm-recipient"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Numer konta:</span>
+                        <span class="value" id="confirm-account"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Kwota:</span>
+                        <span class="value" id="confirm-amount"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Tytuł:</span>
+                        <span class="value" id="confirm-title"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Data realizacji:</span>
+                        <span class="value" id="confirm-date"></span>
+                    </div>
+                </div>
+                <p class="confirmation-text">Czy na pewno chcesz wykonać ten przelew?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="transfer-cancel">Anuluj</button>
+                <button class="btn btn-primary" id="transfer-execute">Potwierdź przelew</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal sukcesu -->
+    <div id="transfer-success-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Przelew wykonany</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <p>Przelew został pomyślnie wykonany!</p>
+                <div class="transfer-details">
+                    <div class="detail-item">
+                        <span class="label">Numer referencyjny:</span>
+                        <span class="value" id="transfer-reference"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="transfer-success-ok">OK</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>Fufel Bank</h2>
+                <p>Twój bank online</p>
+            </div>
+            <div class="footer-links">
+                <h3>Szybkie linki</h3>
+                <ul>
+                    <li><a href="index.html">Strona główna</a></li>
+                    <li><a href="moja-karta.html">Moja karta</a></li>
+                    <li><a href="przelew.html">Przelew</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Kontakt</h3>
+                <p>Email: kontakt@fufelbank.pl</p>
+                <p>Telefon: +48 123 456 789</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Fufel Bank. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="auth-check.js"></script>
+<script src="przelew.js"></script>
+<script>
+    // Sprawdzenie czy użytkownik jest zalogowany
+    if (!requireAuth()) {
+        // Скрипт остановится здесь если пользователь не авторизован
+    }
+</script>
 </body>
 </html>
+

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administratora - Fufel Bank</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style dla panelu administratora */
+        .admin-section {
+            padding: 40px 0;
+        }
+        
+        .admin-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .admin-login {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-panel {
+            display: none;
+        }
+        
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-card h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .user-list th, .user-list td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-list th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .user-list tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        #login-error {
+            display: none;
+            color: #e74c3c;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8d7da;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Fufel Bank</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Strona główna</a></li>
+                    <li><a href="moja-karta.html">Moja karta</a></li>
+                    <li><a href="przelew.html">Przelew</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="admin.html" class="active">Admin</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="logowanie.html" class="btn btn-outline">Logowanie</a>
+                <a href="rejestracja.html" class="btn btn-primary">Rejestracja</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="admin-section">
+            <div class="container">
+                <div class="admin-header">
+                    <h2>Panel Administratora</h2>
+                    <p>Zarządzaj użytkownikami i transakcjami</p>
+                </div>
+                
+                <div id="admin-login" class="admin-login">
+                    <h3>Logowanie do panelu administratora</h3>
+                    <form id="admin-login-form">
+                        <div class="form-group">
+                            <label for="admin-password">Hasło administratora</label>
+                            <input type="password" id="admin-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Zaloguj</button>
+                    </form>
+                    <div id="login-error"></div>
+                </div>
+                
+                <div id="admin-panel" class="admin-panel">
+                    <div class="admin-card">
+                        <h3>Lista użytkowników</h3>
+                        <table id="user-list" class="user-list">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Imię i nazwisko</th>
+                                    <th>Email</th>
+                                    <th>Saldo</th>
+                                    <th>Status karty</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Tutaj będą wyświetlani użytkownicy -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="admin-card">
+                        <h3>Dodaj środki</h3>
+                        <form id="add-funds-form">
+                            <div class="form-group">
+                                <label for="user-id">Wybierz użytkownika</label>
+                                <select id="user-id" required>
+                                    <option value="">Wybierz użytkownika</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Kwota</label>
+                                <div class="amount-input">
+                                    <input type="number" id="amount" min="0.01" step="0.01" required>
+                                    <span class="currency">PLN</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Opis</label>
+                                <input type="text" id="description" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Dodaj środki</button>
+                        </form>
+                    </div>
+                    
+                    <div class="admin-card">
+                        <h3>Zarządzanie kartą</h3>
+                        <form id="card-management-form">
+                            <div class="form-group">
+                                <label for="card-user-id">Wybierz użytkownika</label>
+                                <select id="card-user-id" required>
+                                    <option value="">Wybierz użytkownika</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="block-user-card" class="btn btn-danger">Zablokuj kartę</button>
+                                <button type="button" id="unblock-user-card" class="btn btn-outline">Odblokuj kartę</button>
+                                <button type="button" id="reset-user-pin" class="btn btn-outline">Resetuj PIN</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modal dla sukcesu operacji -->
+        <div id="admin-success-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="admin-success-title">Operacja zakończona</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <p id="admin-success-message">Operacja została wykonana pomyślnie.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="admin-success-ok">OK</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Fufel Bank</h2>
+                    <p>Twój bank online</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Szybkie linki</h3>
+                    <ul>
+                        <li><a href="index.html">Strona główna</a></li>
+                        <li><a href="moja-karta.html">Moja karta</a></li>
+                        <li><a href="przelew.html">Przelew</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Kontakt</h3>
+                    <p>Email: kontakt@fufelbank.pl</p>
+                    <p>Telefon: +48 123 456 789</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fufel Bank. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>
