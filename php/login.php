@@ -1,80 +1,119 @@
 <?php
 global $conn;
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+
 require_once 'db_connect.php';
 
-// Pobieranie danych z żądania POST
-$data = json_decode(file_get_contents('php://input'), true);
-$email = $data['email'] ?? '';
-$password = $data['password'] ?? '';
-
-// Sprawdzanie obecności danych
-if (empty($email) || empty($password)) {
-    echo json_encode(['success' => false, 'message' => 'Wprowadź email i hasło']);
+// Проверка метода запроса
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Nieprawidłowa metoda żądania']);
     exit;
 }
 
-// Wyszukiwanie użytkownika w bazie danych
-$sql = "SELECT id, first_name, last_name, email, phone, balance, account_number, pin, card_blocked, password FROM users WHERE email = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
+// Получение данных из POST запроса
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
 
-if ($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
-
-    // Weryfikacja hasła
-    if (password_verify($password, $row['password'])) {
-        // Konwersja nazw pól dla kompatybilności z JavaScript
-        $user = array(
-            'id' => $row['id'],
-            'firstName' => $row['first_name'],
-            'lastName' => $row['last_name'],
-            'email' => $row['email'],
-            'phone' => $row['phone'],
-            'balance' => $row['balance'],
-            'accountNumber' => $row['account_number'],
-            'pin' => $row['pin'] ?? '1234',
-            'cardBlocked' => $row['card_blocked'] ?? false
-        );
-
-        // Pobieranie limitów dla użytkownika
-        $limitsQuery = "SELECT daily, online, contactless FROM limits WHERE user_id = " . $row['id'];
-        $limitsResult = $conn->query($limitsQuery);
-
-        if ($limitsResult && $limitsResult->num_rows > 0) {
-            $limits = $limitsResult->fetch_assoc();
-            $user['limits'] = $limits;
-        } else {
-            $user['limits'] = array(
-                'daily' => 2000.00,
-                'online' => 1000.00,
-                'contactless' => 100.00
-            );
-        }
-
-        // Pobieranie transakcji dla użytkownika
-        $transactionsQuery = "SELECT id, type, amount, description, DATE_FORMAT(created_at, '%d.%m.%Y') as date FROM transactions WHERE user_id = " . $row['id'] . " ORDER BY created_at DESC LIMIT 5";
-        $transactionsResult = $conn->query($transactionsQuery);
-
-        $transactions = array();
-        if ($transactionsResult && $transactionsResult->num_rows > 0) {
-            while($transactionRow = $transactionsResult->fetch_assoc()) {
-                $transactions[] = $transactionRow;
-            }
-        }
-
-        $user['transactions'] = $transactions;
-
-        echo json_encode(['success' => true, 'user' => $user]);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Nieprawidłowe hasło']);
-    }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Użytkownik nie znaleziony']);
+// Проверка декодирования JSON
+if (json_last_error() !== JSON_ERROR_NONE) {
+    echo json_encode(['success' => false, 'message' => 'Nieprawidłowe dane JSON']);
+    exit;
 }
 
-$stmt->close();
+$email = trim($data['email'] ?? '');
+$password = $data['password'] ?? '';
+
+// Валидация данных
+if (empty($email) || empty($password)) {
+    echo json_encode(['success' => false, 'message' => 'Email i hasło są wymagane']);
+    exit;
+}
+
+try {
+    // Поиск пользователя по email
+    $getUserQuery = "SELECT id, first_name, last_name, email, password, phone, account_number, balance, pin, card_blocked FROM users WHERE email = ?";
+    $getUserStmt = $conn->prepare($getUserQuery);
+
+    if (!$getUserStmt) {
+        throw new Exception('Błąd przygotowania zapytania: ' . $conn->error);
+    }
+
+    $getUserStmt->bind_param("s", $email);
+    $getUserStmt->execute();
+    $result = $getUserStmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+
+        // Проверка пароля
+        if (password_verify($password, $user['password'])) {
+            // Получение лимитов пользователя
+            $limitsQuery = "SELECT daily, online, contactless FROM limits WHERE user_id = ?";
+            $limitsStmt = $conn->prepare($limitsQuery);
+            $limitsStmt->bind_param("i", $user['id']);
+            $limitsStmt->execute();
+            $limitsResult = $limitsStmt->get_result();
+
+            $limits = ['daily' => 2000.00, 'online' => 1000.00, 'contactless' => 100.00];
+            if ($limitsResult->num_rows > 0) {
+                $limits = $limitsResult->fetch_assoc();
+            }
+
+            // Получение последних транзакций
+            $transactionsQuery = "SELECT id, type, amount, description, DATE_FORMAT(created_at, '%d.%m.%Y') as date FROM transactions WHERE user_id = ? ORDER BY created_at DESC LIMIT 5";
+            $transactionsStmt = $conn->prepare($transactionsQuery);
+            $transactionsStmt->bind_param("i", $user['id']);
+            $transactionsStmt->execute();
+            $transactionsResult = $transactionsStmt->get_result();
+
+            $transactions = [];
+            while ($transaction = $transactionsResult->fetch_assoc()) {
+                $transactions[] = $transaction;
+            }
+
+            // Подготовка данных пользователя для ответа
+            $userData = [
+                'id' => $user['id'],
+                'firstName' => $user['first_name'],
+                'lastName' => $user['last_name'],
+                'email' => $user['email'],
+                'phone' => $user['phone'],
+                'accountNumber' => $user['account_number'],
+                'balance' => floatval($user['balance']),
+                'pin' => $user['pin'],
+                'cardBlocked' => (bool)$user['card_blocked'],
+                'limits' => $limits,
+                'transactions' => $transactions
+            ];
+
+            // Логирование входа
+            $logQuery = "INSERT INTO audit_logs (user_id, action, description, ip_address) VALUES (?, 'LOGIN', 'Użytkownik zalogował się do systemu', ?)";
+            $logStmt = $conn->prepare($logQuery);
+            $ipAddress = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+            $logStmt->bind_param("is", $user['id'], $ipAddress);
+            $logStmt->execute();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Logowanie pomyślne',
+                'user' => $userData
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Nieprawidłowy email lub hasło']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Nieprawidłowy email lub hasło']);
+    }
+
+    $getUserStmt->close();
+
+} catch (Exception $e) {
+    error_log("Login error: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Wystąpił błąd podczas logowania']);
+}
+
 $conn->close();
 ?>

@@ -3,25 +3,25 @@ global $conn;
 header('Content-Type: application/json');
 require_once 'db_connect.php';
 
-// Pobieranie danych z żądania POST
+// Получение данных из POST-запроса
 $data = json_decode(file_get_contents('php://input'), true);
 $userId = $data['userId'] ?? 0;
 
-// Sprawdzanie obecności danych
+// Проверка наличия данных
 if ($userId <= 0) {
-    echo json_encode(['success' => false, 'message' => 'Nieprawidłowe dane']);
+    echo json_encode(['success' => false, 'message' => 'Неверные данные']);
     exit;
 }
 
-// Blokowanie karty
+// Блокировка карты
 $blockCardQuery = "UPDATE users SET card_blocked = 1 WHERE id = ?";
 $blockCardStmt = $conn->prepare($blockCardQuery);
 $blockCardStmt->bind_param("i", $userId);
 
 if ($blockCardStmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Karta została zablokowana']);
+    echo json_encode(['success' => true, 'message' => 'Карта была заблокирована']);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Błąd podczas blokowania karty']);
+    echo json_encode(['success' => false, 'message' => 'Ошибка при блокировке карты']);
 }
 
 $blockCardStmt->close();

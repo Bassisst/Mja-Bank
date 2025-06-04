@@ -3,25 +3,25 @@ global $conn;
 header('Content-Type: application/json');
 require_once 'db_connect.php';
 
-// Pobieranie danych z żądania POST
+// Получение данных из POST-запроса
 $data = json_decode(file_get_contents('php://input'), true);
 $userId = $data['userId'] ?? 0;
 $currentPin = $data['currentPin'] ?? '';
 $newPin = $data['newPin'] ?? '';
 
-// Sprawdzanie obecności danych
+// Проверка наличия данных
 if ($userId <= 0 || empty($currentPin) || empty($newPin)) {
-    echo json_encode(['success' => false, 'message' => 'Nieprawidłowe dane']);
+    echo json_encode(['success' => false, 'message' => 'Неверные данные']);
     exit;
 }
 
-// Sprawdzanie długości PIN-u
+// Проверка длины PIN-кода
 if (strlen($newPin) !== 4 || !ctype_digit($newPin)) {
-    echo json_encode(['success' => false, 'message' => 'PIN musi składać się z 4 cyfr']);
+    echo json_encode(['success' => false, 'message' => 'PIN должен состоять из 4 цифр']);
     exit;
 }
 
-// Sprawdzanie obecnego PIN-u
+// Проверка текущего PIN-кода
 $checkPinQuery = "SELECT pin FROM users WHERE id = ?";
 $checkPinStmt = $conn->prepare($checkPinQuery);
 $checkPinStmt->bind_param("i", $userId);
@@ -33,24 +33,24 @@ if ($result->num_rows === 1) {
     $dbPin = $row['pin'] ?? '1234';
 
     if ($currentPin !== $dbPin) {
-        echo json_encode(['success' => false, 'message' => 'Nieprawidłowy obecny PIN']);
+        echo json_encode(['success' => false, 'message' => 'Неверный текущий PIN']);
         exit;
     }
 
-    // Aktualizacja PIN-u
+    // Обновление PIN-кода
     $updatePinQuery = "UPDATE users SET pin = ? WHERE id = ?";
     $updatePinStmt = $conn->prepare($updatePinQuery);
     $updatePinStmt->bind_param("si", $newPin, $userId);
 
     if ($updatePinStmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'PIN został pomyślnie zmieniony']);
+        echo json_encode(['success' => true, 'message' => 'PIN успешно изменен']);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Błąd podczas zmiany PIN-u']);
+        echo json_encode(['success' => false, 'message' => 'Ошибка при изменении PIN']);
     }
 
     $updatePinStmt->close();
 } else {
-    echo json_encode(['success' => false, 'message' => 'Użytkownik nie znaleziony']);
+    echo json_encode(['success' => false, 'message' => 'Пользователь не найден']);
 }
 
 $checkPinStmt->close();
