@@ -1,0 +1,236 @@
+/* Style dla informacji o zalogowanym użytkowniku */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-name {
+  color: #2c3e50;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-name i {
+  color: #3498db;
+}
+
+/* Style dla formularzy */
+.auth-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: calc(100vh - 160px);
+}
+
+.auth-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.auth-form {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.auth-form p {
+  color: #7f8c8d;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkbox input[type="checkbox"] {
+  width: auto;
+  margin-top: 3px;
+}
+
+.checkbox label {
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.checkbox a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.checkbox a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background: #e74c3c;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.success-message {
+  background: #27ae60;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid #e9ecef;
+}
+
+.auth-links a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}
+
+.auth-image {
+  text-align: center;
+}
+
+.auth-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.forgot-password {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Responsywność dla urządzeń mobilnych */
+@media (max-width: 768px) {
+  .auth-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .auth-form {
+    padding: 30px 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .user-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .user-name {
+    font-size: 14px;
+  }
+}
+
+/* Style dla modali karty */
+.card-action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.card-action-buttons .btn {
+  flex: 1;
+  min-width: 150px;
+}
+
+.unblock-card-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+}
+
+.unblock-card-btn:hover {
+  background-color: #229954;
+}
+
+.card-blocked-notice {
+  background-color: #e74c3c;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.card-blocked-notice i {
+  margin-right: 8px;
+}
