@@ -39,6 +39,9 @@ function requireAuth() {
   const user = localStorage.getItem("fufelBankUser")
 
   if (!user) {
+    // Сохранение текущей страницы для перенаправления после логина
+    localStorage.setItem("fufelBankReturnUrl", window.location.pathname)
+
     // Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
     window.location.href = "logowanie.html"
     return false

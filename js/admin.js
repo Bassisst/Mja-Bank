@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Hasło administratora
+    // Пароль администратора
     const ADMIN_PASSWORD = '123';
-    
-    // Elementy UI
+
+    // Элементы UI
     const adminLoginForm = document.getElementById('admin-login-form');
     const adminPanel = document.getElementById('admin-panel');
     const adminLogin = document.getElementById('admin-login');
@@ -14,22 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetUserPinBtn = document.getElementById('reset-user-pin');
     const adminSuccessOkBtn = document.getElementById('admin-success-ok');
     const closeModalButtons = document.querySelectorAll('.close-modal');
-    
-    // Obsługa formularza logowania administratora
+
+    // Обработка формы входа администратора
     if (adminLoginForm) {
         adminLoginForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const password = document.getElementById('admin-password').value;
-            
+
             if (password === ADMIN_PASSWORD) {
-                // Ukryj formularz logowania
+                // Скрыть форму входа
                 adminLogin.style.display = 'none';
-                
-                // Pokaż panel administratora
+
+                // Показать панель администратора
                 adminPanel.style.display = 'block';
-                
-                // Załaduj dane użytkowników
+
+                // Загрузить данные пользователей
                 loadUsers();
             } else {
                 loginError.textContent = 'Nieprawidłowe hasło administratora.';
@@ -37,78 +37,78 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Obsługa formularza dodawania środków
+
+    // Обработка формы добавления средств
     if (addFundsForm) {
         addFundsForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const userId = document.getElementById('user-id').value;
             const amount = parseFloat(document.getElementById('amount').value);
             const description = document.getElementById('description').value;
-            
+
             if (!userId || !amount || !description) {
                 alert('Wypełnij wszystkie pola formularza.');
                 return;
             }
-            
+
             addFundsToUser(userId, amount, description);
         });
     }
-    
-    // Obsługa przycisków zarządzania kartą
+
+    // Обработка кнопок управления картой
     if (blockUserCardBtn) {
         blockUserCardBtn.addEventListener('click', function() {
             const userId = document.getElementById('card-user-id').value;
-            
+
             if (!userId) {
                 alert('Wybierz użytkownika.');
                 return;
             }
-            
+
             blockUserCard(userId);
         });
     }
-    
+
     if (unblockUserCardBtn) {
         unblockUserCardBtn.addEventListener('click', function() {
             const userId = document.getElementById('card-user-id').value;
-            
+
             if (!userId) {
                 alert('Wybierz użytkownika.');
                 return;
             }
-            
+
             unblockUserCard(userId);
         });
     }
-    
+
     if (resetUserPinBtn) {
         resetUserPinBtn.addEventListener('click', function() {
             const userId = document.getElementById('card-user-id').value;
-            
+
             if (!userId) {
                 alert('Wybierz użytkownika.');
                 return;
             }
-            
+
             resetUserPin(userId);
         });
     }
-    
-    // Obsługa przycisku OK w modalu sukcesu
+
+    // Обработка кнопки OK в модальном окне успеха
     if (adminSuccessOkBtn) {
         adminSuccessOkBtn.addEventListener('click', closeAllModals);
     }
-    
-    // Obsługa przycisków zamykania modali
+
+    // Обработка кнопок закрытия модальных окон
     if (closeModalButtons) {
         closeModalButtons.forEach(button => {
             button.addEventListener('click', closeAllModals);
         });
     }
-    
-    // Obsługa wylogowania
+
+    // Обработка выхода из системы
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
@@ -117,15 +117,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Funkcja ładująca użytkowników
+// Функция загрузки пользователей
 function loadUsers() {
     fetch('get_users.php')
         .then(response => response.json())
         .then(users => {
-            // Aktualizacja tabeli użytkowników
+            // Обновление таблицы пользователей
             updateUserTable(users);
-            
-            // Aktualizacja list rozwijanych
+
+            // Обновление выпадающих списков
             updateUserSelects(users);
         })
         .catch(error => {
@@ -134,27 +134,27 @@ function loadUsers() {
         });
 }
 
-// Funkcja aktualizująca tabelę użytkowników
+// Функция обновления таблицы пользователей
 function updateUserTable(users) {
     const userListBody = document.querySelector('#user-list tbody');
-    
+
     if (!userListBody) return;
-    
-    // Czyszczenie tabeli
+
+    // Очистка таблицы
     userListBody.innerHTML = '';
-    
-    // Jeśli nie ma użytkowników
+
+    // Если пользователей нет
     if (users.length === 0) {
         const row = document.createElement('tr');
         row.innerHTML = '<td colspan="6" class="text-center">Brak użytkowników</td>';
         userListBody.appendChild(row);
         return;
     }
-    
-    // Dodawanie użytkowników do tabeli
+
+    // Добавление пользователей в таблицу
     users.forEach(user => {
         const row = document.createElement('tr');
-        
+
         row.innerHTML = `
             <td>${user.id}</td>
             <td>${user.firstName} ${user.lastName}</td>
@@ -168,34 +168,34 @@ function updateUserTable(users) {
                 </div>
             </td>
         `;
-        
+
         userListBody.appendChild(row);
     });
 }
 
-// Funkcja aktualizująca listy rozwijane użytkowników
+// Функция обновления выпадающих списков пользователей
 function updateUserSelects(users) {
     const userIdSelect = document.getElementById('user-id');
     const cardUserIdSelect = document.getElementById('card-user-id');
-    
+
     if (!userIdSelect || !cardUserIdSelect) return;
-    
-    // Czyszczenie list
+
+    // Очистка списков
     userIdSelect.innerHTML = '<option value="">Wybierz użytkownika</option>';
     cardUserIdSelect.innerHTML = '<option value="">Wybierz użytkownika</option>';
-    
-    // Dodawanie użytkowników do list
+
+    // Добавление пользователей в списки
     users.forEach(user => {
         const option = document.createElement('option');
         option.value = user.id;
         option.textContent = `${user.firstName} ${user.lastName} (${user.email})`;
-        
+
         userIdSelect.appendChild(option.cloneNode(true));
         cardUserIdSelect.appendChild(option);
     });
 }
 
-// Funkcja dodająca środki do konta użytkownika
+// Функция добавления средств пользователю
 function addFundsToUser(userId, amount, description) {
     fetch('add_funds.php', {
         method: 'POST',
@@ -208,28 +208,28 @@ function addFundsToUser(userId, amount, description) {
             description: description
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Aktualizacja UI
-            loadUsers();
-            
-            // Resetowanie formularza
-            document.getElementById('add-funds-form').reset();
-            
-            // Pokazanie modalu sukcesu
-            showSuccessModal('Środki dodane', `Dodano ${formatAmount(amount)} do konta użytkownika.`);
-        } else {
-            alert('Błąd: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Błąd podczas dodawania środków:', error);
-        alert('Błąd podczas dodawania środków. Sprawdź konsolę, aby uzyskać szczegóły.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновление UI
+                loadUsers();
+
+                // Сброс формы
+                document.getElementById('add-funds-form').reset();
+
+                // Показ модального окна успеха
+                showSuccessModal('Środki dodane', `Dodano ${formatAmount(amount)} do konta użytkownika.`);
+            } else {
+                alert('Błąd: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Błąd podczas dodawania środków:', error);
+            alert('Błąd podczas dodawania środków. Sprawdź konsolę, aby uzyskać szczegóły.');
+        });
 }
 
-// Funkcja blokująca kartę użytkownika
+// Функция блокировки карты пользователя
 function blockUserCard(userId) {
     fetch('update_card_status.php', {
         method: 'POST',
@@ -241,25 +241,25 @@ function blockUserCard(userId) {
             blocked: true
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Aktualizacja UI
-            loadUsers();
-            
-            // Pokazanie modalu sukcesu
-            showSuccessModal('Karta zablokowana', 'Karta użytkownika została zablokowana.');
-        } else {
-            alert('Błąd: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Błąd podczas blokowania karty:', error);
-        alert('Błąd podczas blokowania karty. Sprawdź konsolę, aby uzyskać szczegóły.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновление UI
+                loadUsers();
+
+                // Показ модального окна успеха
+                showSuccessModal('Karta zablokowana', 'Karta użytkownika została zablokowana.');
+            } else {
+                alert('Błąd: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Błąd podczas blokowania karty:', error);
+            alert('Błąd podczas blokowania karty. Sprawdź консolę, aby uzyskać szczegóły.');
+        });
 }
 
-// Funkcja odblokowująca kartę użytkownika
+// Функция разблокировки карты пользователя
 function unblockUserCard(userId) {
     fetch('update_card_status.php', {
         method: 'POST',
@@ -271,25 +271,25 @@ function unblockUserCard(userId) {
             blocked: false
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Aktualizacja UI
-            loadUsers();
-            
-            // Pokazanie modalu sukcesu
-            showSuccessModal('Karta odblokowana', 'Karta użytkownika została odblokowana.');
-        } else {
-            alert('Błąd: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Błąd podczas odblokowywania karty:', error);
-        alert('Błąd podczas odblokowywania karty. Sprawdź konsolę, aby uzyskać szczegóły.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновление UI
+                loadUsers();
+
+                // Показ модального окна успеха
+                showSuccessModal('Karta odblokowana', 'Karta użytkownika została odblokowana.');
+            } else {
+                alert('Błąd: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Błąd podczas odblokowywania karty:', error);
+            alert('Błąд podczas odblokowywania karty. Sprawdź консolę, aby uzyskać szczegóły.');
+        });
 }
 
-// Funkcja resetująca PIN użytkownika
+// Функция сброса PIN-кода пользователя
 function resetUserPin(userId) {
     fetch('reset_pin.php', {
         method: 'POST',
@@ -300,30 +300,30 @@ function resetUserPin(userId) {
             userId: userId
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Aktualizacja UI
-            loadUsers();
-            
-            // Pokazanie modalu sukcesu
-            showSuccessModal('PIN zresetowany', 'PIN użytkownika został zresetowany do wartości domyślnej (1234).');
-        } else {
-            alert('Błąd: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Błąd podczas resetowania PIN-u:', error);
-        alert('Błąd podczas resetowania PIN-u. Sprawdź konsolę, aby uzyskać szczegóły.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновление UI
+                loadUsers();
+
+                // Показ модального окна успеха
+                showSuccessModal('PIN zresetowany', 'PIN użytkownika został zresetowany do wartości domyślnej (1234).');
+            } else {
+                alert('Błąd: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Błąd podczas resetowania PIN-u:', error);
+            alert('Błąд podczas resetowania PIN-u. Sprawdź консolę, aby uzyskać szczegóły.');
+        });
 }
 
-// Funkcja usuwająca użytkownika
+// Функция удаления пользователя
 function deleteUser(userId) {
     if (!confirm('Czy na pewno chcesz usunąć tego użytkownika?')) {
         return;
     }
-    
+
     fetch('delete_user.php', {
         method: 'POST',
         headers: {
@@ -333,32 +333,32 @@ function deleteUser(userId) {
             userId: userId
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Aktualizacja UI
-            loadUsers();
-            
-            alert('Użytkownik został usunięty.');
-        } else {
-            alert('Błąd: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Błąd podczas usuwania użytkownika:', error);
-        alert('Błąd podczas usuwania użytkownika. Sprawdź konsolę, aby uzyskać szczegóły.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновление UI
+                loadUsers();
+
+                alert('Użytkownik został usunięty.');
+            } else {
+                alert('Błąd: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Błąд podczas usuwania użytkownika:', error);
+            alert('Błąд podczas usuwania użytkownika. Sprawdź консolę, aby uzyskać szczegóły.');
+        });
 }
 
-// Funkcja wyświetlająca szczegóły użytkownika
+// Функция отображения деталей пользователя
 function viewUserDetails(userId) {
     fetch(`get_user_details.php?id=${userId}`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 const user = data.user;
-                
-                // Wyświetlenie szczegółów użytkownika
+
+                // Показать детали пользователя
                 alert(`
                     ID: ${user.id}
                     Imię: ${user.firstName}
@@ -375,29 +375,30 @@ function viewUserDetails(userId) {
                     - Zbliżeniowy: ${user.limits?.contactless || 100} PLN
                 `);
             } else {
-                alert('Błąd: ' + data.message);
+                alert('Błąд: ' + data.message);
             }
         })
         .catch(error => {
-            console.error('Błąd podczas pobierania szczegółów użytkownika:', error);
-            alert('Błąd podczas pobierania szczegółów użytkownika. Sprawdź konsolę, aby uzyskać szczegóły.');
+            console.error('Błąд podczas pobierania szczegółów użytkownika:', error);
+            alert('Błąд podczas pobierania szczegółów użytkownika. Sprawdź консolę, aby uzyskać szczegóły.');
         });
 }
 
-// Funkcja pokazująca modal sukcesu
+// Функция показа модального окна успеха
 function showSuccessModal(title, message) {
     const successModal = document.getElementById('admin-success-modal');
     const successTitle = document.getElementById('admin-success-title');
     const successMessage = document.getElementById('admin-success-message');
-    
-    if (successModal && successTitle && successMessage) {
-        successTitle.textContent = title;
-        successMessage.textContent = message;
-        successModal.style.display = 'flex';
-    }
+
+    if (!successModal || !successTitle || !successMessage) return;
+
+    successTitle.textContent = title;
+    successMessage.textContent = message;
+
+    successModal.style.display = 'block';
 }
 
-// Funkcja zamykająca wszystkie modale
+// Функция закрытия всех модальных окон
 function closeAllModals() {
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
@@ -405,7 +406,7 @@ function closeAllModals() {
     });
 }
 
-// Funkcja formatująca kwotę
+// Форматирование суммы в PLN
 function formatAmount(amount) {
-    return parseFloat(amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ' PLN';
+    return amount.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' });
 }

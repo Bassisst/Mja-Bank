@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Sprawdzenie, czy użytkownik jest zalogowany
+    // Проверяем, вошел ли пользователь в систему
     checkLoginStatus()
 
-    // Obsługa przycisków
+    // Поддержка кнопок
     const blockCardBtn = document.getElementById("block-card-btn")
     const unblockCardBtn = document.getElementById("unblock-card-btn")
     const changePinBtn = document.getElementById("change-pin-btn")
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         limitsBtn.addEventListener("click", showLimitsModal)
     }
 
-    // Obsługa modali
+    // Обработка модальных окон
     setupModals()
 })
 
