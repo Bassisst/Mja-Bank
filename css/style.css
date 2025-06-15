@@ -212,21 +212,592 @@ footer {
 }
 
 .features {
-    padding: 60px 0;
+    padding: 80px 0;
+    background: linear-gradient(135deg, #1e5aa8 0%, #2563eb 50%, #1d4ed8 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.features::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .features h2 {
     text-align: center;
-    margin-bottom: 40px;
-    color: #333;
-    font-size: 32px;
+    margin-bottom: 60px;
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 700;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    position: relative;
 }
 
-.feature-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+.features h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #ffffff, #e5e7eb);
+    border-radius: 2px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
+    margin-top: 40px;
+}
+
+.feature {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(30, 90, 168, 0.15);
+    overflow: hidden;
+}
+
+.feature::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(30, 90, 168, 0.1), transparent);
+    transition: left 0.6s;
+}
+
+.feature:hover::before {
+    left: 100%;
+}
+
+.feature:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(30, 90, 168, 0.25);
+    border: 1px solid rgba(30, 90, 168, 0.3);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    background: linear-gradient(135deg, #1e5aa8, #2563eb);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 90, 168, 0.4);
+}
+
+.feature-icon::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(135deg, #1e5aa8, #2563eb);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.feature:hover .feature-icon::after {
+    opacity: 0.3;
+    animation: pulse 2s infinite;
+}
+
+.feature-icon i {
+    font-size: 32px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.feature:hover .feature-icon {
+    transform: rotateY(360deg);
+    box-shadow: 0 8px 25px rgba(30, 90, 168, 0.6);
+}
+
+.feature h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1e5aa8;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.feature p {
+    color: #4b5563;
+    line-height: 1.6;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Вариации синего цвета для каждой карточки в стиле Fufel Bank */
+.feature:nth-child(1) .feature-icon {
+    background: linear-gradient(135deg, #1e5aa8, #3b82f6);
+    box-shadow: 0 4px 15px rgba(30, 90, 168, 0.4);
+}
+
+.feature:nth-child(2) .feature-icon {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+}
+
+.feature:nth-child(3) .feature-icon {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    box-shadow: 0 4px 15px rgba(29, 78, 216, 0.4);
+}
+
+.feature:nth-child(4) .feature-icon {
+    background: linear-gradient(135deg, #1e40af, #1e3a8a);
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+}
+
+.feature:nth-child(1) .feature-icon::after {
+    background: linear-gradient(135deg, #1e5aa8, #3b82f6);
+}
+
+.feature:nth-child(2) .feature-icon::after {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.feature:nth-child(3) .feature-icon::after {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.feature:nth-child(4) .feature-icon::after {
+    background: linear-gradient(135deg, #1e40af, #1e3a8a);
+}
+
+/* Добавляем акцентные элементы в стиле Fufel Bank */
+.feature:nth-child(1) h3 {
+    color: #1e5aa8;
+}
+
+.feature:nth-child(2) h3 {
+    color: #2563eb;
+}
+
+.feature:nth-child(3) h3 {
+    color: #1d4ed8;
+}
+
+.feature:nth-child(4) h3 {
+    color: #1e40af;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+
+/* Дополнительный эффект для соответствия стилю банка */
+.feature::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1e5aa8, #2563eb, #1d4ed8);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.feature:hover::after {
+    opacity: 1;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .features {
+        padding: 60px 0;
+    }
+
+    .features h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .feature {
+        padding: 30px 20px;
+    }
+
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .feature-icon i {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .features h2 {
+        font-size: 28px;
+    }
+
+    .feature h3 {
+        font-size: 20px;
+    }
+
+    .feature p {
+        font-size: 14px;
+    }
+}
+.cta {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Анимированный фон с геометрическими фигурами */
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+            radial-gradient(circle at 20% 80%, rgba(30, 90, 168, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(29, 78, 216, 0.2) 0%, transparent 50%);
+    animation: backgroundMove 20s ease-in-out infinite;
+}
+
+/* Декоративные элементы */
+.cta::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    animation: rotate 60s linear infinite;
+    opacity: 0.3;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.cta-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Декоративная рамка вокруг контента */
+.cta-content::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+.cta h2 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    line-height: 1.2;
+}
+
+/* Анимированное подчеркивание заголовка */
+.cta h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1e5aa8, #2563eb, #1d4ed8);
+    border-radius: 2px;
+    animation: underlineGrow 2s ease-out 0.5s forwards;
+}
+
+.cta p {
+    font-size: 20px;
+    color: #e2e8f0;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Стильная кнопка */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #1e5aa8, #2563eb);
+    color: #ffffff;
+    padding: 18px 40px;
+    box-shadow: 0 8px 25px rgba(30, 90, 168, 0.4);
+    border: 2px solid transparent;
+}
+
+/* Анимированный фон кнопки */
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+.btn-primary:hover::before {
+    left: 0;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(30, 90, 168, 0.6);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Пульсирующий эффект */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Плавающие частицы */
+.cta-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+            radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.2), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.4), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.2), transparent),
+            radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.3), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: sparkle 3s linear infinite;
+    pointer-events: none;
+}
+
+/* Анимации */
+@keyframes backgroundMove {
+    0%, 100% {
+        transform: translateX(0) translateY(0);
+    }
+    25% {
+        transform: translateX(-20px) translateY(-10px);
+    }
+    50% {
+        transform: translateX(20px) translateY(10px);
+    }
+    75% {
+        transform: translateX(-10px) translateY(20px);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes underlineGrow {
+    from {
+        width: 0;
+    }
+    to {
+        width: 120px;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(1.2);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .cta {
+        padding: 80px 0;
+    }
+
+    .cta h2 {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+
+    .cta p {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .btn-primary {
+        padding: 16px 32px;
+        font-size: 16px;
+    }
+
+    .cta-content::before {
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cta {
+        padding: 60px 0;
+    }
+
+    .cta h2 {
+        font-size: 28px;
+    }
+
+    .cta p {
+        font-size: 16px;
+    }
+
+    .btn-primary {
+        padding: 14px 28px;
+        font-size: 15px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+}
+
+/* Дополнительные эффекты для премиум вида */
+.cta-content {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Эффект свечения при загрузке */
+.cta h2 {
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    to {
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.1);
+    }
 }
 
 .card {
