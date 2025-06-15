@@ -44,6 +44,9 @@ function checkLoginStatus() {
 
     // Aktualizacja transakcji
     loadTransactions(userData)
+
+    // Inicjalizacja przycisku pokazywania numeru karty
+    initializeShowNumberButton()
 }
 
 // Funkcja aktualizująca dane użytkownika
@@ -62,13 +65,14 @@ function updateUserData(userData) {
 
     const cardNumber = document.getElementById("card-number")
     if (cardNumber) {
-        // Wyświetl tylko ostatnie 4 cyfry numeru karty
-        const maskedNumber = userData.accountNumber
-            ? userData.accountNumber.substring(0, 2) +
-            "** **** **** " +
-            userData.accountNumber.substring(userData.accountNumber.length - 4)
-            : "**** **** **** 1234"
+        // Zapisz pełny numer karty w atrybucie data
+        const fullNumber = userData.accountNumber || "1234567890123456"
+        const maskedNumber = fullNumber.substring(0, 4) + " **** **** " + fullNumber.substring(fullNumber.length - 4)
+
         cardNumber.textContent = maskedNumber
+        cardNumber.setAttribute("data-full-number", formatCardNumber(fullNumber))
+        cardNumber.setAttribute("data-masked-number", maskedNumber)
+        cardNumber.classList.remove("number-revealed")
     }
 
     // Aktualizacja salda
@@ -485,6 +489,60 @@ function closeAllModals() {
     modals.forEach((modal) => {
         modal.style.display = "none"
     })
+}
+
+// Funkcja inicjalizująca przycisk pokazywania numeru karty
+function initializeShowNumberButton() {
+    const showNumberBtn = document.getElementById("show-number-btn")
+    if (showNumberBtn) {
+        showNumberBtn.addEventListener("click", toggleCardNumber)
+    }
+}
+
+// Funkcja przełączająca widoczność numeru karty
+function toggleCardNumber() {
+    const cardNumber = document.getElementById("card-number")
+    const eyeIcon = document.getElementById("eye-icon")
+    const showNumberBtn = document.getElementById("show-number-btn")
+
+    if (!cardNumber || !eyeIcon || !showNumberBtn) return
+
+    const fullNumber = cardNumber.getAttribute("data-full-number")
+    const maskedNumber = cardNumber.getAttribute("data-masked-number")
+    const isRevealed = cardNumber.classList.contains("number-revealed")
+
+    if (isRevealed) {
+        // Ukryj numer karty
+        cardNumber.textContent = maskedNumber
+        cardNumber.classList.remove("number-revealed")
+        eyeIcon.className = "fas fa-eye"
+        showNumberBtn.classList.remove("active")
+        showNumberBtn.title = "Pokaż numer karty"
+
+        // Automatyczne ukrycie po 5 sekundach
+        clearTimeout(window.hideNumberTimeout)
+    } else {
+        // Pokaż numer karty
+        cardNumber.textContent = fullNumber
+        cardNumber.classList.add("number-revealed")
+        eyeIcon.className = "fas fa-eye-slash"
+        showNumberBtn.classList.add("active")
+        showNumberBtn.title = "Ukryj numer karty"
+
+        // Automatyczne ukrycie po 5 sekundach
+        window.hideNumberTimeout = setTimeout(() => {
+            cardNumber.textContent = maskedNumber
+            cardNumber.classList.remove("number-revealed")
+            eyeIcon.className = "fas fa-eye"
+            showNumberBtn.classList.remove("active")
+            showNumberBtn.title = "Pokaż numer karty"
+        }, 5000)
+    }
+}
+
+// Funkcja formatująca numer karty
+function formatCardNumber(number) {
+    return number.replace(/(\d{4})(?=\d)/g, "$1 ")
 }
 
 // Funkcja formatująca kwotę
